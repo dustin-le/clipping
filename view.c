@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include "view.h"
 
@@ -145,9 +146,10 @@ View *loadView( char *fName )
 
   //--------------------------------------
 
-  // TODO: Compute the portal min and max values and
-  //       save their values in the m_portal... fields
-  //       in the view structure.
+  view->m_portalXMin = round(view->m_width * view->m_viewportXMin);
+  view->m_portalXMax = round(view->m_width * view->m_viewportXMax);
+  view->m_portalYMin = round(view->m_height * view->m_viewportYMin);
+  view->m_portalYMax = round(view->m_height * view->m_viewportYMax);
 
   //--------------------------------------
   return view;
