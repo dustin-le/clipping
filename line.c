@@ -45,6 +45,28 @@ int _regionCode( double x, double y, View *v )
   //       the view.  (Don't forget to use EPSILON
   //       comparisons!)
   //       Return the computed code.
+  // ! Epsilon comparisons
+  int code = INSIDE;
+
+  if (x < v->m_portalXMin)
+  {
+    code = code | LEFT;
+  }
+  else if (x > v->m_portalXMax)
+  {
+    code = code | RIGHT;
+  }
+
+  if (y < v->m_portalYMin)
+  {
+    code = code | BELOW;
+  }
+  else if (y > v->m_portalYMax)
+  {
+    code = code | ABOVE;
+  }
+
+  return code;
 }
 
 //----------------------------------------------------------
