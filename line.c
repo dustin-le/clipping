@@ -21,13 +21,97 @@ int _regionCode( double x, double y, View *v );
 //----------------------------------------------------------
 int clipLine( View *v, Line *l )
 {
-  // TODO: Clip the line l against the portal limits
-  //       in the view using the Cohen-Sutherland
-  //       method as described in class.
-  //       If p1 or p2 of the line is updated, ensure
-  //       that you change it in the Line structure.
-  //       Return whether the line should be drawn
-  //       at all (0 for no, 1 for yes).
+  int anOutCode, x, y, p1Out, p2Out;
+
+  p1Out = _regionCode(l->p1X, l->p1Y, v);
+  p2Out = _regionCode(l->p2X, l->p2Y, v);
+  
+  if (p1Out == INSIDE)
+  {
+    anOutCode = p2Out;
+  }
+  
+  else
+  {
+    anOutCode = p1Out;
+  }
+
+  if (anOutCode & ABOVE)
+  {
+    x = l->p1X + (l->p2X - l->p1X) * (v->m_portalYMax - l->p1Y) / (l->p2Y - l->p1Y);
+    y = v->m_portalYMax;
+    if (anOutCode == p1Out)
+    {
+      l->p1X = x;
+      l->p1Y = y;
+    }
+    else if (anOutCode == p2Out)
+    {
+      l->p2X = x;
+      l->p2Y = y;
+    }
+  }
+
+  else if (anOutCode & BELOW)
+  {
+    x = l->p1X + (l->p2X - l->p1X) * (v->m_portalYMin - l->p1Y) / (l->p2Y - l->p1Y);
+    y = v->m_portalYMin;
+    if (anOutCode == p1Out)
+    {
+      l->p1X = x;
+      l->p1Y = y;
+    }
+    else if (anOutCode == p2Out)
+    {
+      l->p2X = x;
+      l->p2Y = y;
+    }
+  }
+
+  else if (anOutCode & RIGHT)
+  {
+    x = v->m_portalXMax;
+    y = l->p1Y + (l->p2Y - l->p1Y) * (v->m_portalXMax - l->p1X) / (l->p2X - l->p1X);
+    if (anOutCode == p1Out)
+    {
+      l->p1X = x;
+      l->p1Y = y;
+    }
+    else if (anOutCode == p2Out)
+    {
+      l->p2X = x;
+      l->p2Y = y;
+    }
+  }
+
+  else if (anOutCode & LEFT)
+  {
+    x = v->m_portalXMin;
+    y = l->p1Y + (l->p2Y - l->p1Y) * (v->m_portalXMin - l->p1X) / (l->p2X - l->p1X);
+    if (anOutCode == p1Out)
+    {
+      l->p1X = x;
+      l->p1Y = y;
+    }
+    else if (anOutCode == p2Out)
+    {
+      l->p2X = x;
+      l->p2Y = y;
+    }
+  }
+
+  p1Out = _regionCode(l->p1X, l->p1Y, v);
+  p2Out = _regionCode(l->p2X, l->p2Y, v);
+
+  if (p1Out == INSIDE && p2Out == INSIDE)
+  {
+    return 1;
+  }
+
+  else
+  {
+    return 0;
+  }
 }
 
 //----------------------------------------------------------
