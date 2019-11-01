@@ -40,28 +40,21 @@ void dumpLine( Line *l )
 //----------------------------------------------------------
 int _regionCode( double x, double y, View *v )
 {
-  // TODO: Compute the region code for the point x, y
-  //       by comparing against the portal limits in
-  //       the view.  (Don't forget to use EPSILON
-  //       comparisons!)
-  //       Return the computed code.
-  // ! Epsilon comparisons
   int code = INSIDE;
 
-  if (x < v->m_portalXMin)
+  if ((v->m_portalXMin - x) > EPSILON)
   {
     code = code | LEFT;
   }
-  else if (x > v->m_portalXMax)
+  else if ((x - v->m_portalXMax) > EPSILON)
   {
     code = code | RIGHT;
   }
-
-  if (y < v->m_portalYMin)
+  else if ((v->m_portalYMin - y) > EPSILON)
   {
     code = code | BELOW;
   }
-  else if (y > v->m_portalYMax)
+  else if ((y - v->m_portalYMax) > EPSILON)
   {
     code = code | ABOVE;
   }
