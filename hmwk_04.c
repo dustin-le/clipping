@@ -46,9 +46,29 @@ int main( int argc, char *argv[] )
   // Draw lines corresponding to the viewport region.
   Line line;
 
-  // TODO: "Draw" the four edges of the portal region as
-  //       given in the view structure.  Use a Line
-  //       structure and the dumpLine() routine.
+  line.p1X = v->m_portalXMin;
+  line.p1Y = v->m_portalYMin;
+  line.p2X = v->m_portalXMin;
+  line.p2Y = v->m_portalYMax;
+  dumpLine(&line);
+
+  line.p1X = v->m_portalXMin;
+  line.p1Y = v->m_portalYMax;
+  line.p2X = v->m_portalXMax;
+  line.p2Y = v->m_portalYMax;
+  dumpLine(&line);
+
+  line.p1X = v->m_portalXMax;
+  line.p1Y = v->m_portalYMax;
+  line.p2X = v->m_portalXMax;
+  line.p2Y = v->m_portalYMin;
+  dumpLine(&line);
+
+  line.p1X = v->m_portalXMax;
+  line.p1Y = v->m_portalYMin;
+  line.p2X = v->m_portalXMin;
+  line.p2Y = v->m_portalYMin;
+  dumpLine(&line);
 
   //--------------------------------------
   // Check each line of each triangle.
